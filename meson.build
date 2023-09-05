@@ -32,6 +32,7 @@ elif neon == 'armv8-neon'
 endif
 
 libcamera_dep = dependency('libcamera', required : true)
+uvgrtp_deb = dependency('uvgrtp', required : true)
 
 summary({
             'location' : libcamera_dep.get_variable('libdir'),
@@ -39,8 +40,9 @@ summary({
         },
         section : 'libcamera')
 
+
 libcamera_app_src = []
-libcamera_app_dep = [libcamera_dep]
+libcamera_app_dep = [libcamera_dep, uvgrtp_deb]
 
 subdir('core')
 subdir('encoder')

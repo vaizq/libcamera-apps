@@ -2,6 +2,7 @@ libcamera_app_src += files([
     'circular_output.cpp',
     'file_output.cpp',
     'net_output.cpp',
+    'rtp_output.cpp',
     'output.cpp',
 ])
 
@@ -9,6 +10,7 @@ output_headers = [
     'circular_output.hpp',
     'file_output.hpp',
     'net_output.hpp',
+    'rtp_output.hpp',
     'output.hpp',
 ]
 
