@@ -107,7 +107,7 @@ Output *Output::Create(VideoOptions const *options)
 
 	if (strncmp(options->output.c_str(), "udp://", 6) == 0 || strncmp(options->output.c_str(), "tcp://", 6) == 0)
 		return new NetOutput(options);
-	else if (strncmp(options->output.c_str(), "rtp://", 6))
+	else if (strncmp(options->output.c_str(), "rtp://", 6) == 0)
 		return new RtpOutput(options);
 	else if (options->circular)
 		return new CircularOutput(options);
