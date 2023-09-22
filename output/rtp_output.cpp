@@ -26,7 +26,7 @@ constexpr size_t MAX_UDP_SIZE = 65507;
 
 void RtpOutput::outputBuffer(void *mem, size_t size, int64_t /*timestamp_us*/, uint32_t /*flags*/)
 {
-	if (m_stream->push_frame(mem, size, RTP_NO_FLAGS) != RTP_OK)
+	if (m_stream->push_frame((uint8_t*)mem, size, RTP_NO_FLAGS) != RTP_OK)
 	{
 		LOG_ERROR("Failed to send frame!");
 	}
