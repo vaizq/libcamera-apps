@@ -4,7 +4,7 @@ SrtpOutput::SrtpOutput(VideoOptions const *options) : Output(options)
 {
 	char protocol[4];
 	int start, end, a, b, c, d, port;
-	if (sscanf(options->output.c_str(), "%3s://%n%d.%d.%d.%d%n:%d", protocol, &start, &a, &b, &c, &d, &end, &port) != 6)
+	if (sscanf(options->output.c_str(), "%4s://%n%d.%d.%d.%d%n:%d", protocol, &start, &a, &b, &c, &d, &end, &port) != 6)
 		throw std::runtime_error("bad network address " + options->output);
 	m_remote_address = options->output.substr(start, end - start);
 	m_remote_port = port;
