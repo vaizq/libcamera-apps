@@ -34,15 +34,15 @@ RtpOutput::RtpOutput(VideoOptions const *options) : Output(options)
 
 	m_sess = m_ctx.create_session(m_remote_address, "0.0.0.0");
 
+	int flags = RCE_RTCP;
 	if (strcasecmp(options->codec.c_str(), "h264") == 0)
 	{
-		int flags = RCE_SEND_ONLY | RCE_RTCP;
-		m_stream = m_sess->create_stream(m_remote_port, RTP_FORMAT_H264, flags);
+		m_stream = m_sess->create_stream("0.0.0.0", m_remote_port, RTP_FORMAT_H264, flags);
 	}
 	else
 	{
-		int flags = RCE_RTCP | RCE_FRAGMENT_GENERIC | RCE_SEND_ONLY;
-		m_stream = m_sess->create_stream(m_remote_port, RTP_FORMAT_GENERIC, flags);
+		int flags = RCE_FRAGMENT_GENERIC;
+		m_stream = m_sess->create_stream("0.0.0.0", m_remote_port, RTP_FORMAT_GENERIC, flags);
 	}
 
 	if (m_stream->get_rtcp()->install_receiver_hook(recv_hook) != RTP_OK)
