@@ -1,6 +1,26 @@
 #include "rtp_output.hpp"
 #include <iostream>
 
+
+static void recv_hook(uvgrtp::frame::rtcp_receiver_report* frame) {
+    std::cout << "RTCP receiver report! ----------"       << std::endl;
+
+    for (auto& block : frame->report_blocks)
+    {
+        std::cout << "ssrc: "       << block.ssrc     << std::endl;
+        std::cout << "fraction: "   << block.fraction << std::endl;
+        std::cout << "lost: "       << block.lost     << std::endl;
+        std::cout << "last_seq: "   << block.last_seq << std::endl;
+        std::cout << "jitter: "     << block.jitter   << std::endl;
+        std::cout << "lsr: "        << block.lsr      << std::endl;
+        std::cout << "dlsr (jiffies): "  << uvgrtp::clock::jiffies_to_ms(block.dlsr)
+                  << std::endl << std::endl;
+    }
+
+    /* RTCP frames can be deallocated using delete */
+    delete frame;
+}
+
 RtpOutput::RtpOutput(VideoOptions const *options) : Output(options)
 {
 	char protocol[4];
@@ -24,6 +44,9 @@ RtpOutput::RtpOutput(VideoOptions const *options) : Output(options)
 		int flags = RCE_RTCP | RCE_FRAGMENT_GENERIC | RCE_SEND_ONLY;
 		m_stream = m_sess->create_stream(m_remote_port, RTP_FORMAT_GENERIC, flags);
 	}
+
+	if (m_stream->get_rtcp()->install_receiver_hook(recv_hook) != RTP_OK)
+		throw std::runtime_error("failed to install receive hook");
 }
 
 RtpOutput::~RtpOutput()
