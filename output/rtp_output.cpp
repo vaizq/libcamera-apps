@@ -16,12 +16,12 @@ RtpOutput::RtpOutput(VideoOptions const *options) : Output(options)
 
 	if (strcasecmp(options->codec.c_str(), "h264") == 0)
 	{
-		int flags = RCE_SEND_ONLY;
+		int flags = RCE_SEND_ONLY | RCE_RTCP;
 		m_stream = m_sess->create_stream(m_remote_port, RTP_FORMAT_H264, flags);
 	}
 	else
 	{
-		int flags = RCE_FRAGMENT_GENERIC | RCE_SEND_ONLY;
+		int flags = RCE_RTCP | RCE_FRAGMENT_GENERIC | RCE_SEND_ONLY;
 		m_stream = m_sess->create_stream(m_remote_port, RTP_FORMAT_GENERIC, flags);
 	}
 }
