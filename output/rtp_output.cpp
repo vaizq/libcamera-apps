@@ -11,7 +11,7 @@ RtpOutput::RtpOutput(VideoOptions const *options) : Output(options)
 
 	LOG(2, "Sending to address: " + m_remote_address + ":" + std::to_string(m_remote_port));
 
-	m_sess = m_ctx.create_session(m_remote_address);
+	m_sess = m_ctx.create_session(m_remote_address, "0.0.0.0");
 
 	if (strcasecmp(options->codec.c_str(), "h264") == 0)
 	{

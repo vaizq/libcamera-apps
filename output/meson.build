@@ -3,6 +3,7 @@ libcamera_app_src += files([
     'file_output.cpp',
     'net_output.cpp',
     'rtp_output.cpp',
+    'srtp_output.cpp',
     'output.cpp',
 ])
 
