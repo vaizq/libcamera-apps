@@ -1,4 +1,5 @@
 #include "rtp_output.hpp"
+#include <iostream>
 
 RtpOutput::RtpOutput(VideoOptions const *options) : Output(options)
 {
@@ -35,5 +36,9 @@ void RtpOutput::outputBuffer(void *mem, size_t size, int64_t /*timestamp_us*/, u
 	if (m_stream->push_frame((uint8_t*)mem, size, RTP_NO_FLAGS) != RTP_OK)
 	{
 		LOG_ERROR("Failed to send frame!");
+	}
+	else 
+	{
+		std::cout << "sent " << size << " bytes" << std::endl;
 	}
 }
